@@ -2,6 +2,7 @@ package com.devsuperior.dsmeta.services;
 
 import com.devsuperior.dsmeta.dto.ReportMinDTO;
 import com.devsuperior.dsmeta.dto.SaleMinDTO;
+import com.devsuperior.dsmeta.dto.SummaryMinDTO;
 import com.devsuperior.dsmeta.entities.Sale;
 import com.devsuperior.dsmeta.projections.SaleReportProjection;
 import com.devsuperior.dsmeta.repositories.SaleRepository;
@@ -14,6 +15,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,6 +37,13 @@ public class SaleService {
 		LocalDate dateMin = getMinDate(minDate, dateMax);
 		Page<SaleReportProjection> projectionPage = repository.searchSaleBySeller(dateMin, dateMax, name, pageable);
 		return projectionPage.map(x -> new ReportMinDTO(x));
+	}
+
+	public List<SummaryMinDTO> summarySaleBySeller(String minDate, String maxDate) {
+		LocalDate dateMax = getMaxDate(maxDate);
+		LocalDate dateMin = getMinDate(minDate, dateMax);
+		List<SummaryMinDTO> dtos = repository.searchSummarySaleBySeller(dateMin, dateMax);
+		return dtos;
 	}
 
 
@@ -59,4 +68,6 @@ public class SaleService {
 		}
 		return minDate;
 	}
+
+
 }
