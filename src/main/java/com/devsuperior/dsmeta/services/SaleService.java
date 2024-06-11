@@ -4,7 +4,6 @@ import com.devsuperior.dsmeta.dto.ReportMinDTO;
 import com.devsuperior.dsmeta.dto.SaleMinDTO;
 import com.devsuperior.dsmeta.dto.SummaryMinDTO;
 import com.devsuperior.dsmeta.entities.Sale;
-import com.devsuperior.dsmeta.projections.SaleReportProjection;
 import com.devsuperior.dsmeta.repositories.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,8 +34,8 @@ public class SaleService {
 	public Page<ReportMinDTO> reportSaleBySeller(String minDate, String maxDate, String name, Pageable pageable) {
 		LocalDate dateMax = getMaxDate(maxDate);
 		LocalDate dateMin = getMinDate(minDate, dateMax);
-		Page<SaleReportProjection> projectionPage = repository.searchSaleBySeller(dateMin, dateMax, name, pageable);
-		return projectionPage.map(x -> new ReportMinDTO(x));
+		Page<ReportMinDTO> dto = repository.searchSaleBySeller(dateMin, dateMax, name, pageable);
+		return dto;
 	}
 
 	public List<SummaryMinDTO> summarySaleBySeller(String minDate, String maxDate) {
